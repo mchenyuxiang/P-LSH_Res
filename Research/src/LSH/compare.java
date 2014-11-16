@@ -8,24 +8,24 @@ import tool.ReadFile;
 
 public class compare {
 	public static void main(String[] args) {
-		//存放myfile.txt文件
+		//瀛樻斁myfile.txt鏂囦欢
 		TreeMap<Integer, String> myfile = new TreeMap<>();
-		String myfileIn = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\myfile.txt";
+		String myfileIn = "D:\\鐮旂┒瀛︿範\\鐮旂┒鐢熻鏂嘰\灏忚鏂嘰\experimentResult\\myfile.txt";
 		ReadFile.Read(myfileIn, myfile);
 		
-		//存放matuser.txt文件
+		//瀛樻斁matuser.txt鏂囦欢
 		TreeMap<Integer, String> matuser = new TreeMap<>();
-		String matuserIn = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\matuser.txt";
+		String matuserIn = "D:\\鐮旂┒瀛︿範\\鐮旂┒鐢熻鏂嘰\灏忚鏂嘰\experimentResult\\matuser.txt";
 		ReadFile.Read(matuserIn, matuser);
 		
-		//存放userlist文件
+		//瀛樻斁userlist鏂囦欢
 		ArrayList<String> userlist = new ArrayList<>();
-		String userlistIn = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\userlist.txt";
+		String userlistIn = "D:\\鐮旂┒瀛︿範\\鐮旂┒鐢熻鏂嘰\灏忚鏂嘰\experimentResult\\userlist.txt";
 		ReadFile.Read(userlistIn, userlist);
 		
-		//存放treemap文件
+		//瀛樻斁treemap鏂囦欢
 		TreeMap<String, String> treemap  = new TreeMap<>();
-		String treemapIn = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\treemap.txt";
+		String treemapIn = "D:\\鐮旂┒瀛︿範\\鐮旂┒鐢熻鏂嘰\灏忚鏂嘰\experimentResult\\treemap.txt";
 		ReadFile.Read1(treemapIn, treemap);
 		
 		TreeMap<Integer,String> resUser = new TreeMap<>();
@@ -38,7 +38,7 @@ public class compare {
 		String matic = myfile.get(2);
 //		System.out.println(old.length() + ":" + matic.length());
 		TreeMap<Integer, ArrayList<Integer>> res = new TreeMap<>();
-		//存放每一个用户推荐的集合
+		//瀛樻斁姣忎竴涓敤鎴锋帹鑽愮殑闆嗗悎
 		ArrayList<Integer> reslist = new ArrayList<>();
 		for(int i=0; i < matic.split(",").length; i++){
 			if(!matic.split(",")[i].equals(String.valueOf(0))){

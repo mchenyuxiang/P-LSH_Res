@@ -9,31 +9,31 @@ import java.util.Random;
 import java.util.Set;
 
 /*
- * »ùÓÚp-stable LSH³ÌĞò
+ * åŸºäºp-stable LSHç¨‹åº
  * 
- * ³ÌĞò×é³É²¿·Ö£º
- * 1¡¢hashº¯Êı£»2¡¢ÌØÕ÷ÏòÁ¿£»
+ * ç¨‹åºç»„æˆéƒ¨åˆ†ï¼š
+ * 1ã€hashå‡½æ•°ï¼›2ã€ç‰¹å¾å‘é‡ï¼›
  * 
  *
  * */
 
 public class pstable {
-	static int dimention=10;//Î¬¶È
-	static int hashcount=10;//¹şÏ£±íµÄÊıÁ¿
+	static int dimention=10;//ç»´åº¦
+	static int hashcount=10;//å“ˆå¸Œè¡¨çš„æ•°é‡
 	public static void main(String[] args) {
-		double[][] a = new double[hashcount][dimention];//p-Stable·Ö²¼£¨L=2£»¸ßË¹·Ö²¼£©µÄËæ»úÏòÁ¿
-		double w=1;//LSHµÄw
-		double b=Math.random()*100/(w+1);//LSHµÄËæ»úÊıb
+		double[][] a = new double[hashcount][dimention];//p-Stableåˆ†å¸ƒï¼ˆL=2ï¼›é«˜æ–¯åˆ†å¸ƒï¼‰çš„éšæœºå‘é‡
+		double w=1;//LSHçš„w
+		double b=Math.random()*100/(w+1);//LSHçš„éšæœºæ•°b
 		ArrayList<String> alist = new ArrayList<>();
-		Map<Integer, ArrayList<String>> map = new HashMap<Integer, ArrayList<String>>(); //´æ·ÅÏòÁ¿ºÍÃû³Æ
+		Map<Integer, ArrayList<String>> map = new HashMap<Integer, ArrayList<String>>(); //å­˜æ”¾å‘é‡å’Œåç§°
 		
-		//´ı²âÊÔµÄÌØÕ÷
+		//å¾…æµ‹è¯•çš„ç‰¹å¾
 		String[] feature = {"1,0,0,0,0,0,0,0,0,1,1,0,0,0",
 				"1,0,0,1,1,1,1,1,1,0,1,0,1,0",
 				"1,1,0,1,0,0,0,0,0,0,0,1,1,1"};
 		
-		//³ÌĞò¿ªÊ¼
-		for(int j=0;j<hashcount;j++)//²úÉúhashcount¸ö¹şÏ£±í
+		//ç¨‹åºå¼€å§‹
+		for(int j=0;j<hashcount;j++)//äº§ç”Ÿhashcountä¸ªå“ˆå¸Œè¡¨
 		{
 			for(int k=0;k<dimention;k++)
 			{
@@ -42,12 +42,12 @@ public class pstable {
 		}
 		
 		for(int i = 0; i < 3; i++) {
-			for(int l=0;l<hashcount;l++)//Ã¿Ò»¸öÌØÕ÷µÄhashcount¸ökey
+			for(int l=0;l<hashcount;l++)//æ¯ä¸€ä¸ªç‰¹å¾çš„hashcountä¸ªkey
 			{
-				int hash_num=hashfamily(feature[i],a[l][0],b,w);//¹şÏ£
-				int key=(int) (hash_num/w);//¹şÏ£±íµÄkey
+				int hash_num=hashfamily(feature[i],a[l][0],b,w);//å“ˆå¸Œ
+				int key=(int) (hash_num/w);//å“ˆå¸Œè¡¨çš„key
 				
-				//¹şÏ£´æ´¢
+				//å“ˆå¸Œå­˜å‚¨
 				if(map.containsKey(key) && exist(map.get(key),feature[i])) {
 					map.get(key).add(feature[i]);
 				}else if(!map.containsKey(key)){
@@ -58,7 +58,7 @@ public class pstable {
 		print(map);
 	}
 	
-	//ÅĞ¶ÏÔÚÒ»¸ökeyÖĞÊ±ºòÓĞÏàÍ¬µÄvalueÖµ
+	//åˆ¤æ–­åœ¨ä¸€ä¸ªkeyä¸­æ—¶å€™æœ‰ç›¸åŒçš„valueå€¼
 	public static boolean exist(ArrayList<String> str1,String str2) {
 		for(int i = 0; i < str1.size(); i++) {
 			if(str1.get(i).equals(str2)) {
@@ -68,21 +68,21 @@ public class pstable {
 		return true;
 	}
 	
-	//Ìí¼Óvalue
+	//æ·»åŠ value
 	public static ArrayList<String> alist(String s) {
 		ArrayList<String> arr = new ArrayList<String>();
 		arr.add(s);
 		return arr;
 	}
 	
-	//´òÓ¡hashÍ°ÖĞµÄ¸÷¸öÖµ
+	//æ‰“å°hashæ¡¶ä¸­çš„å„ä¸ªå€¼
 	public static void print(Map<Integer, ArrayList<String>> map) {
 		for(Object o : map.keySet()){  
 		    System.out.println(o + " : " + map.get(o));  
 		}  
 	}
 	
-	//Æ½¾ù·Ö²¼
+	//å¹³å‡åˆ†å¸ƒ
 //	public static double AverageRandom(double min,double max) {
 //	    int minInteger = (int)(min*10000);
 //	    int maxInteger = (int)(max*10000);
@@ -97,12 +97,12 @@ public class pstable {
 	    double resultInteger = randInteger * (max - min) ;
 	    return resultInteger/10000.0 + min;
 	}
-	 //¸ÅÂÊÃÜ¶Èº¯Êı
+	 //æ¦‚ç‡å¯†åº¦å‡½æ•°
 	public static double Normal(double x,double miu,double sigma) {
 		return 1.0/Math.sqrt(2*Math.PI*sigma) * Math.exp(-1*(x-miu)*(x-miu)/(2*sigma*sigma));
 	}
 	
-	//²úÉúÕıÌ¬·Ö²¼Ëæ»úÊı
+	//äº§ç”Ÿæ­£æ€åˆ†å¸ƒéšæœºæ•°
 	public static double NormalRandom(double miu,double sigma,double min,double max) {
 	    double x;
 	    double dScope;
@@ -115,7 +115,7 @@ public class pstable {
 	     return x;
 	}
 
-	//¹şÏ£º¯Êı
+	//å“ˆå¸Œå‡½æ•°
 	public static int hashfamily(String feature,double a_temp,double b_temp,double w_temp) {
 		String[] a = feature.split(",");
 		double result=b_temp;
@@ -123,7 +123,7 @@ public class pstable {
 		{
 			result+=Integer.parseInt(a[i])*((a_temp+i));
 		}
-		return (int)(result/w_temp);//·µ»Ø¹şÏ£½á¹û
+		return (int)(result/w_temp);//è¿”å›å“ˆå¸Œç»“æœ
 	}
 }
 

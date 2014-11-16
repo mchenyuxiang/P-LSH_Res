@@ -19,72 +19,72 @@ import org.omg.CORBA.Current;
 import tool.*;
 
 /*
- * »ùÓÚp-stable LSH³ÌĞò
+ * åŸºäºp-stable LSHç¨‹åº
  * 
- * ³ÌĞò×é³É²¿·Ö£º
- * 1¡¢hashº¯Êı£»2¡¢ÌØÕ÷ÏòÁ¿£»
+ * ç¨‹åºç»„æˆéƒ¨åˆ†ï¼š
+ * 1ã€hashå‡½æ•°ï¼›2ã€ç‰¹å¾å‘é‡ï¼›
  * 
  * */
 
 public class PstableLSH {
-	static int dimention=1682;//Î¬¶È
-	static int hashcount=943;//ÌØÕ÷ÓĞ¶àÉÙĞĞ
-	static int hashbucketcount=10;//¹şÏ£Í°µÄÊıÁ¿
+	static int dimention=1682;//ç»´åº¦
+	static int hashcount=943;//ç‰¹å¾æœ‰å¤šå°‘è¡Œ
+	static int hashbucketcount=10;//å“ˆå¸Œæ¡¶çš„æ•°é‡
 	public static void main(String[] args) throws IOException {
 		long startTime = System.currentTimeMillis();
-		double[][] a = new double[hashcount][dimention];//p-Stable·Ö²¼£¨L=2£»¸ßË¹·Ö²¼£©µÄËæ»úÏòÁ¿
-		double w=50;//LSHµÄw
-		double b=Math.random()*100/(w);//LSHµÄËæ»úÊıb
-		//×îÖÕÌî³ä¾ØÕóÆÀ·ÖÊıÁ¿ÉÙÓÚnumµÄÁĞÈ¥µô
+		double[][] a = new double[hashcount][dimention];//p-Stableåˆ†å¸ƒï¼ˆL=2ï¼›é«˜æ–¯åˆ†å¸ƒï¼‰çš„éšæœºå‘é‡
+		double w=50;//LSHçš„w
+		double b=Math.random()*100/(w);//LSHçš„éšæœºæ•°b
+		//æœ€ç»ˆå¡«å……çŸ©é˜µè¯„åˆ†æ•°é‡å°‘äºnumçš„åˆ—å»æ‰
 		int num = 5;
-		//keyindexÎª×·×ÙµÄÓÃ»§£¬¼´ÎªÄÄÎ»ÓÃ»§½øĞĞÍÆ¼ö
+		//keyindexä¸ºè¿½è¸ªçš„ç”¨æˆ·ï¼Œå³ä¸ºå“ªä½ç”¨æˆ·è¿›è¡Œæ¨è
 		int keyindex = 40;
 //		System.out.println(b);
 		ArrayList<String> alist = new ArrayList<>();
-		//´æ·ÅÏòÁ¿ºÍÃû³Æ
+		//å­˜æ”¾å‘é‡å’Œåç§°
 		Map<Integer, ArrayList<String>> map = new TreeMap<Integer, ArrayList<String>>(); 
-		//ÓÃ»§´æ½øÁËÄÄĞ©Í°ÖĞ
+		//ç”¨æˆ·å­˜è¿›äº†å“ªäº›æ¡¶ä¸­
 		Map<Integer, ArrayList<String>> indexusermap = new TreeMap<Integer, ArrayList<String>>(); 
-		//Ò»¸öÍ°ÖĞ´æÁËÄÄĞ©ÓÃ»§
+		//ä¸€ä¸ªæ¡¶ä¸­å­˜äº†å“ªäº›ç”¨æˆ·
 		Map<Integer, ArrayList<String>> indexbucketmap = new TreeMap<Integer, ArrayList<String>>(); 
 		
 		ArrayList<Integer> moive = new ArrayList<>();
-		//usersµÄmapÎª×îÖÕĞèÒªÌî³äµÄ¾ØÕó
+		//usersçš„mapä¸ºæœ€ç»ˆéœ€è¦å¡«å……çš„çŸ©é˜µ
 		Map<Integer, ArrayList<String>> users = new TreeMap<>();
 		
 		ArrayList<String> userList = new ArrayList<>();
-		//usermap¼ÇÂ¼½«ËùÓĞÍ°ÖĞµÄÓÃ»§·ÅÈëµ½Ò»¸ö¾ØÕóÖĞ
+		//usermapè®°å½•å°†æ‰€æœ‰æ¡¶ä¸­çš„ç”¨æˆ·æ”¾å…¥åˆ°ä¸€ä¸ªçŸ©é˜µä¸­
 		Map<Integer, ArrayList<String>> usermap = new TreeMap<>();
-		//usernozreo¼ÇÂ¼ÔÚusermapÖĞÓÃ»§ÆÀ·Ö¼ÇÂ¼·ÇÁãµÄÎ»ÖÃ
+		//usernozreoè®°å½•åœ¨usermapä¸­ç”¨æˆ·è¯„åˆ†è®°å½•éé›¶çš„ä½ç½®
 		Map<Integer, ArrayList<String>> usernozero = new TreeMap<>();
 
 
 		
-		//treemap¶¨ÒåÎªÔ­¾ØÕóÁĞÓë¶ÔÓ¦ÁĞµÄ¹ØÏµ
+		//treemapå®šä¹‰ä¸ºåŸçŸ©é˜µåˆ—ä¸å¯¹åº”åˆ—çš„å…³ç³»
 		TreeMap<Integer, Integer> treemap = new TreeMap<Integer, Integer>();
 		
 		/**
-		 * ³ÌĞò¿ªÊ¼
+		 * ç¨‹åºå¼€å§‹
 		 * */
 		
-		//³õÊ¼»¯¶şÎ¬Êı×é
+		//åˆå§‹åŒ–äºŒç»´æ•°ç»„
 		Integer[][] base = new Integer[hashcount][dimention];
 		Init.InitArray(base, hashcount, dimention, 0);
 		
-		//³õÊ¼²âÊÔ¶şÎ¬Êı×é
+		//åˆå§‹æµ‹è¯•äºŒç»´æ•°ç»„
 		Integer[][] test = new Integer[hashcount][dimention];
 		Init.InitArray(test, hashcount, dimention, 0);
 		
 		
 //		/**
-//		 * ³õÊ¼»¯treemap£¬¶ÔÓ¦µçÓ°ºÅ
+//		 * åˆå§‹åŒ–treemapï¼Œå¯¹åº”ç”µå½±å·
 //		 * */
 //		for(int i=0; i<dimention; i++){
 //			treemap.put(i, i);
 //		}
 		
 		/**
-		 * ²úÉúhashcount¸ö¹şÏ£±í
+		 * äº§ç”Ÿhashcountä¸ªå“ˆå¸Œè¡¨
 		 */
 		for(int j=0;j<hashcount;j++)
 		{
@@ -97,20 +97,20 @@ public class PstableLSH {
 		
 
 		
-		String baseIn = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\Êı¾İ¼¯\\ml-100k\\u1.base";
+		String baseIn = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\æ•°æ®é›†\\ml-100k\\u1.base";
 		ReadFile.Read(baseIn, base);
 		
-		String baseFile = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\experimentResult\\baseout.txt";
+		String baseFile = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\experimentResult\\baseout.txt";
 		WriteFile.Write(baseFile, base, hashcount, dimention);
 		
-		String testFile = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\Êı¾İ¼¯\\ml-100k\\u1.test";
+		String testFile = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\æ•°æ®é›†\\ml-100k\\u1.test";
 		ReadFile.Read(testFile, test);
 		
-		String basetestFile = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\experimentResult\\testout.txt";
+		String basetestFile = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\experimentResult\\testout.txt";
 		WriteFile.Write(basetestFile, test, hashcount, dimention);
 		
 		/**
-		 * ½«¼ÇÂ¼µÄÃ¿Ò»¸öÊı×é×ª»»ÎªÒ»¸ö×Ö·û´®Êı×é
+		 * å°†è®°å½•çš„æ¯ä¸€ä¸ªæ•°ç»„è½¬æ¢ä¸ºä¸€ä¸ªå­—ç¬¦ä¸²æ•°ç»„
 		 */
 		Map<Integer, String> userfeature = new TreeMap<>();
 		String[] feature = new String[hashcount];
@@ -128,27 +128,27 @@ public class PstableLSH {
 		}
 		
 		for(int i = 0; i < hashcount; i++) {
-			for(int l=0;l<hashbucketcount;l++)//Ã¿Ò»¸öÌØÕ÷µÄhashcount¸ökey
+			for(int l=0;l<hashbucketcount;l++)//æ¯ä¸€ä¸ªç‰¹å¾çš„hashcountä¸ªkey
 			{
-//				int hash_num=hashfamily(feature[i],a[l][0],b,w);//¹şÏ£
-				int hash_num=hashfamily(userfeature.get(i+1),a[l][0],b,w);//¹şÏ£
-				int key=(int) (hash_num/w);//¹şÏ£±íµÄkey
+//				int hash_num=hashfamily(feature[i],a[l][0],b,w);//å“ˆå¸Œ
+				int hash_num=hashfamily(userfeature.get(i+1),a[l][0],b,w);//å“ˆå¸Œ
+				int key=(int) (hash_num/w);//å“ˆå¸Œè¡¨çš„key
 				
-				//¹şÏ£´æ´¢
+				//å“ˆå¸Œå­˜å‚¨
 				if(map.containsKey(key) && exist(map.get(key),userfeature.get(i+1))) {
 					map.get(key).add(userfeature.get(i+1));
 				}else if(!map.containsKey(key)){
 					map.put(key, alist(userfeature.get(i+1)));
 				}
 				
-				//ÓÃ»§ÂäÔÚÄÄĞ©Í°ÖĞË÷Òı½¨Á¢
+				//ç”¨æˆ·è½åœ¨å“ªäº›æ¡¶ä¸­ç´¢å¼•å»ºç«‹
 				if(indexusermap.containsKey(i+1) && exist(indexusermap.get(i+1),String.valueOf(key))) {
 					indexusermap.get(i+1).add(String.valueOf(key));
 				}else if(!indexusermap.containsKey(i+1)){
 					indexusermap.put(i+1, alist(String.valueOf(key)));
 				}
 				
-				//Ò»¸öÍ°ÖĞ°üº¬ÄÄĞ©ÓÃ»§Ë÷Òı½¨Á¢
+				//ä¸€ä¸ªæ¡¶ä¸­åŒ…å«å“ªäº›ç”¨æˆ·ç´¢å¼•å»ºç«‹
 				if(indexbucketmap.containsKey(key) && exist(indexbucketmap.get(key),String.valueOf(i+1))) {
 					indexbucketmap.get(key).add(String.valueOf(i+1));
 				}else if(!indexbucketmap.containsKey(key)){
@@ -157,14 +157,14 @@ public class PstableLSH {
 			}
 		}
 		
-		//sbucketÈ¡³ö39ºÅÓÃ»§ÔÚÄÄĞ©Í°ÖĞ
+		//sbucketå–å‡º39å·ç”¨æˆ·åœ¨å“ªäº›æ¡¶ä¸­
 		ArrayList<String> sbucket = indexusermap.get(keyindex);
-		//userinfoÎª´æ·ÅÓë39ºÅÓÃ»§Í¬ÔÚÒ»¸öÍ°ÖĞµÄÓÃ»§ÁĞ±í
+		//userinfoä¸ºå­˜æ”¾ä¸39å·ç”¨æˆ·åŒåœ¨ä¸€ä¸ªæ¡¶ä¸­çš„ç”¨æˆ·åˆ—è¡¨
 		ArrayList<String> userinfo = new ArrayList<>();
 
 		
 		/**
-		 * Óë39ºÅÓÃ»§ÏàËÆµÄÓÃ»§ÓĞÄÄĞ©£¬´æÈëuserinfoÖĞ
+		 * ä¸39å·ç”¨æˆ·ç›¸ä¼¼çš„ç”¨æˆ·æœ‰å“ªäº›ï¼Œå­˜å…¥userinfoä¸­
 		 * */
 		for(int i=0; i < sbucket.size(); i++) {
 			ArrayList<String> is = indexbucketmap.get(Integer.parseInt(sbucket.get(i)));
@@ -177,7 +177,7 @@ public class PstableLSH {
 //		System.out.println(userinfo);
 		
 		/**
-		 * È¡³öÓë39ºÅÓÃ»§ÏàËÆµÄËùÓĞÓÃ»§µÄÆÀ·Ö£¬×é³ÉĞÂµÄusermap¾ØÕó
+		 * å–å‡ºä¸39å·ç”¨æˆ·ç›¸ä¼¼çš„æ‰€æœ‰ç”¨æˆ·çš„è¯„åˆ†ï¼Œç»„æˆæ–°çš„usermapçŸ©é˜µ
 		 * */
 		for(int i=0; i < userinfo.size(); i++) {
 			usermap.put(Integer.parseInt(userinfo.get(i)), alist(arrayTostring(base[Integer.parseInt(userinfo.get(i))])));
@@ -186,7 +186,7 @@ public class PstableLSH {
 
 		
 		/**
-		 * ½«usermapÖĞÍ¬Ò»ÁĞÈ«²¿Îª0µÄÁĞÉ¾³ıµô£¬µÃµ½×îÖÕĞèÒªÌî³äµÄ¾ØÕóusers
+		 * å°†usermapä¸­åŒä¸€åˆ—å…¨éƒ¨ä¸º0çš„åˆ—åˆ é™¤æ‰ï¼Œå¾—åˆ°æœ€ç»ˆéœ€è¦å¡«å……çš„çŸ©é˜µusers
 		 * */
 		int tempdimention = dimention;
 		int cntt = 0;
@@ -201,7 +201,7 @@ public class PstableLSH {
 					flag = 1;
 					ot = o;
 					/**
-					 * ½«Ã¿Î»ÓÃ»§ÆÀ·Ö²»Îª0µÄµçÓ°¼ÇÂ¼ÏÂÀ´
+					 * å°†æ¯ä½ç”¨æˆ·è¯„åˆ†ä¸ä¸º0çš„ç”µå½±è®°å½•ä¸‹æ¥
 					 * */
 					if(usernozero.containsKey(o) && exist(usernozero.get(o),String.valueOf(i))) {
 						usernozero.get(o).add(String.valueOf(i));
@@ -213,7 +213,7 @@ public class PstableLSH {
 			if(flag == 1 && cnt > num){
 				cntt ++;
 				/**
-				 * ¸üĞÂtreemapÖĞµçÓ°ºÍÏÖ´æµÄÎ»ÖÃÊı
+				 * æ›´æ–°treemapä¸­ç”µå½±å’Œç°å­˜çš„ä½ç½®æ•°
 				 */
 				treemap.put(cntt, i);
 				moive.add(i);
@@ -249,24 +249,24 @@ public class PstableLSH {
 //		printNum(users);
 //		printlist(moive);
 //		print1(tempmap);
-		String indexuser = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\experimentResult\\indexuser.txt";
+		String indexuser = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\experimentResult\\indexuser.txt";
 		WriteFile.Write(indexuser, indexusermap);
-		String bucketuser = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\experimentResult\\bucketuser.txt";
+		String bucketuser = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\experimentResult\\bucketuser.txt";
 		WriteFile.Write(bucketuser, indexbucketmap);
-		String matuser = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\experimentResult\\matuser.txt";
+		String matuser = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\experimentResult\\matuser.txt";
 		WriteFile.Write(matuser, users);
-		String Treemap = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\experimentResult\\Treemap.txt";
+		String Treemap = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\experimentResult\\Treemap.txt";
 		WriteFile.Write(Treemap, treemap);
-//		String userListIn = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\experimentResult\\userlist.txt";
+//		String userListIn = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\experimentResult\\userlist.txt";
 //		WriteFile.Write1(userListIn, users);
 		
 		long endTime = System.currentTimeMillis();
 		long alltime = endTime - startTime;
-		System.out.println("ÔËĞĞÊ±¼ä£º " + alltime + "ms");
+		System.out.println("è¿è¡Œæ—¶é—´ï¼š " + alltime + "ms");
 //		System.out.println(treemap.size());
 	}
 	
-	//½«¶şÎ¬Êı×éÒ»ĞĞÓÃString·µ»Ø
+	//å°†äºŒç»´æ•°ç»„ä¸€è¡Œç”¨Stringè¿”å›
 	public static String arrayTostring(Integer[] base) {
 		String sb = "";
 		for(int i = 0; i < base.length; i++) {
@@ -279,7 +279,7 @@ public class PstableLSH {
 		return sb;
 	}
 	
-	//ÅĞ¶ÏÔÚÒ»¸ökeyÖĞÊ±ºòÓĞÏàÍ¬µÄvalueÖµ
+	//åˆ¤æ–­åœ¨ä¸€ä¸ªkeyä¸­æ—¶å€™æœ‰ç›¸åŒçš„valueå€¼
 	public static boolean exist(ArrayList<String> str1,String str2) {
 		for(int i = 0; i < str1.size(); i++) {
 			if(str1.get(i).equals(str2)) {
@@ -289,7 +289,7 @@ public class PstableLSH {
 		return true;
 	}
 	
-	//Ìí¼Óvalue
+	//æ·»åŠ value
 	public static ArrayList<String> alist(String s) {
 		ArrayList<String> arr = new ArrayList<String>();
 		arr.add(s);
@@ -308,16 +308,16 @@ public class PstableLSH {
 	
 	public static void printNum(Map<Integer, ArrayList<String>> map) {
 		for(Object o: map.keySet()){
-			System.out.println("ĞĞÊı£º"+ map.size());  
-			System.out.println("ÁĞÊı£º"+ map.get(o).size());  
+			System.out.println("è¡Œæ•°ï¼š"+ map.size());  
+			System.out.println("åˆ—æ•°ï¼š"+ map.get(o).size());  
 			break;
 		}
 	}
 	
-	//´òÓ¡hashÍ°ÖĞµÄ¸÷¸öÖµ
+	//æ‰“å°hashæ¡¶ä¸­çš„å„ä¸ªå€¼
 	public static void print1(Map<Integer, ArrayList<String>> map) {
 		for(Object o : map.keySet()){  
-		    System.out.println("¸öÊı£º"+ map.get(o).size() + " : " + o + " : " + map.get(o));  
+		    System.out.println("ä¸ªæ•°ï¼š"+ map.get(o).size() + " : " + o + " : " + map.get(o));  
 		}  
 	}
 	
@@ -327,7 +327,7 @@ public class PstableLSH {
 		}  
 	}
 	
-	//´òÓ¡hashÍ°ÖĞµÄ¸÷¸öÖµ
+	//æ‰“å°hashæ¡¶ä¸­çš„å„ä¸ªå€¼
 	public static void print2(Map<Integer, ArrayList<String>> map) {
 		for(Object o : map.keySet()){  
 			for(int i = 0; i < map.get(o).size(); i++){
@@ -336,10 +336,10 @@ public class PstableLSH {
 		}  
 	}
 	
-	//´òÓ¡hashÍ°ÖĞµÄ¸÷¸öÖµ
+	//æ‰“å°hashæ¡¶ä¸­çš„å„ä¸ªå€¼
 	public static void print(Map<Integer, ArrayList<String>> map) throws IOException {
 		for(Object o : map.keySet()){  
-			String lshtestFile = "D:\\ÑĞ¾¿Ñ§Ï°\\ÑĞ¾¿ÉúÂÛÎÄ\\Ğ¡ÂÛÎÄ\\experimentResult\\lsh\\"+ o +".txt";
+			String lshtestFile = "D:\\ç ”ç©¶å­¦ä¹ \\ç ”ç©¶ç”Ÿè®ºæ–‡\\å°è®ºæ–‡\\experimentResult\\lsh\\"+ o +".txt";
 			BufferedWriter lshtestFileOut = new BufferedWriter(new FileWriter(lshtestFile));
 			for(int j = 0; j < map.get(o).size(); j++){
 				if(j != map.get(o).size()-1){
@@ -354,19 +354,19 @@ public class PstableLSH {
 		}  
 	}
 	
-	//Æ½¾ù·Ö²¼
+	//å¹³å‡åˆ†å¸ƒ
 	public static double AverageRandom(double min,double max) {
 	    int randInteger = (int) (Math.random()*10000);
 	    double resultInteger = randInteger * (max - min) ;
 	    return resultInteger/10000.0 + min;
 	}
 
-	 //¸ÅÂÊÃÜ¶Èº¯Êı
+	 //æ¦‚ç‡å¯†åº¦å‡½æ•°
 	public static double Normal(double x,double miu,double sigma) {
 		return 1.0/Math.sqrt(2*Math.PI*sigma) * Math.exp(-1*(x-miu)*(x-miu)/(2*sigma*sigma));
 	}
 	
-	//²úÉúÕıÌ¬·Ö²¼Ëæ»úÊı
+	//äº§ç”Ÿæ­£æ€åˆ†å¸ƒéšæœºæ•°
 	public static double NormalRandom(double miu,double sigma,double min,double max) {
 	    double x;
 	    double dScope;
@@ -379,7 +379,7 @@ public class PstableLSH {
 	     return x;
 	}
 
-	//¹şÏ£º¯Êı
+	//å“ˆå¸Œå‡½æ•°
 	public static int hashfamily(String feature,double a_temp,double b_temp,double w_temp) {
 		String[] a = feature.split(",");
 		double result=b_temp;
@@ -387,6 +387,6 @@ public class PstableLSH {
 		{
 			result+=Integer.parseInt(a[i])*((a_temp+i));
 		}
-		return (int)(result/w_temp);//·µ»Ø¹şÏ£½á¹û
+		return (int)(result/w_temp);//è¿”å›å“ˆå¸Œç»“æœ
 	}
 }
