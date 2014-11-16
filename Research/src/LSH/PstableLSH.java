@@ -24,7 +24,6 @@ import tool.*;
  * 程序组成部分：
  * 1、hash函数；2、特征向量；
  * 
- *
  * */
 
 public class PstableLSH {
