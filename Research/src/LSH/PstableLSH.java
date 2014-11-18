@@ -22,7 +22,7 @@ import tool.*;
  * 基于p-stable LSH程序
  * 
  * 程序组成部分：
- * 1、hash函数；2、特征向量；
+ * 1、hash函数；2、特征向量；  
  * 
  * */
 
