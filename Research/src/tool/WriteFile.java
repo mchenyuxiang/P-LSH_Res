@@ -73,5 +73,28 @@ public class WriteFile {
 			}
 		}
 	}
-
+	public static void Write(String FileName,ArrayList<String> userinfo) throws IOException{
+		BufferedWriter lshtestFileOut = new BufferedWriter(new FileWriter(FileName));
+		for(int i=0; i < userinfo.size(); i++){ 
+			try {
+				lshtestFileOut.write(userinfo.get(i));
+				lshtestFileOut.newLine();
+				lshtestFileOut.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public static void Write1(String FileName,TreeMap<Integer, String> users) throws IOException{
+		BufferedWriter lshtestFileOut = new BufferedWriter(new FileWriter(FileName));
+		for(Object o : users.keySet()){ 
+			try {
+				lshtestFileOut.write(users.get(o));
+				lshtestFileOut.newLine();
+				lshtestFileOut.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

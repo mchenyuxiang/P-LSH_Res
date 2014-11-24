@@ -37,25 +37,30 @@ public class pstable {
 		{
 			for(int k=0;k<dimention;k++)
 			{
-				a[j][k]=NormalRandom(0,1,-1.5,1.5);
-			}
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			for(int l=0;l<hashcount;l++)//每一个特征的hashcount个key
-			{
-				int hash_num=hashfamily(feature[i],a[l][0],b,w);//哈希
-				int key=(int) (hash_num/w);//哈希表的key
-				
-				//哈希存储
-				if(map.containsKey(key) && exist(map.get(key),feature[i])) {
-					map.get(key).add(feature[i]);
-				}else if(!map.containsKey(key)){
-					map.put(key, alist(feature[i]));
+				a[j][k]=NormalRandom(0,1,-5,5);
+				if(k!=dimention-1){
+					System.out.print(a[j][k] + ",");
+				}else{
+					System.out.println(a[j][k]);
 				}
 			}
 		}
-		print(map);
+		
+//		for(int i = 0; i < 3; i++) {
+//			for(int l=0;l<hashcount;l++)//每一个特征的hashcount个key
+//			{
+//				int hash_num=hashfamily(feature[i],a[l][0],b,w);//哈希
+//				int key=(int) (hash_num/w);//哈希表的key
+//				
+//				//哈希存储
+//				if(map.containsKey(key) && exist(map.get(key),feature[i])) {
+//					map.get(key).add(feature[i]);
+//				}else if(!map.containsKey(key)){
+//					map.put(key, alist(feature[i]));
+//				}
+//			}
+//		}
+//		print(map);
 	}
 	
 	//判断在一个key中时候有相同的value值

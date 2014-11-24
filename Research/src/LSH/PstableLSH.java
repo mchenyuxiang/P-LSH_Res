@@ -97,35 +97,42 @@ public class PstableLSH {
 		
 
 		
-		String baseIn = "D:\\研究学习\\研究生论文\\小论文\\数据集\\ml-100k\\u1.base";
-		ReadFile.Read(baseIn, base);
+//		String baseIn = "F:\\研究学习\\研究生论文\\小论文\\数据集\\ml-100k\\u1.base";
+//		ReadFile.Read(baseIn, base);
+//		
+//		String baseFile = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\baseout.txt";
+//		WriteFile.Write(baseFile, base, hashcount, dimention);
+//		
+//		String testFile = "F:\\研究学习\\研究生论文\\小论文\\数据集\\ml-100k\\u1.test";
+//		ReadFile.Read(testFile, test);
+//		
+//		String basetestFile = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\testout.txt";
+//		WriteFile.Write(basetestFile, test, hashcount, dimention);
 		
-		String baseFile = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\baseout.txt";
-		WriteFile.Write(baseFile, base, hashcount, dimention);
 		
-		String testFile = "D:\\研究学习\\研究生论文\\小论文\\数据集\\ml-100k\\u1.test";
-		ReadFile.Read(testFile, test);
+		//存放向量和名称
+		TreeMap<Integer, String> userfeature = new TreeMap<Integer, String>();
 		
-		String basetestFile = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\testout.txt";
-		WriteFile.Write(basetestFile, test, hashcount, dimention);
-		
+		String baseFile1 = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\BaseMatric.txt";
+		userfeature = ReadFile.Read2(baseFile1, userfeature);
 		/**
 		 * 将记录的每一个数组转换为一个字符串数组
 		 */
-		Map<Integer, String> userfeature = new TreeMap<>();
-		String[] feature = new String[hashcount];
-		for(int i=0; i < hashcount; i++){
-			feature[i] = "";
-			for(int j=0; j<dimention; j++){
-				if(j == 0){
-					feature[i] = base[i][j]+"";
-				}
-				else {
-					feature[i] += "," + base[i][j]; 
-				}
-			}
-			userfeature.put(i+1, feature[i]);
-		}
+//		Map<Integer, String> userfeature = new TreeMap<>();
+//		String[] feature = new String[hashcount];
+//		for(int i=0; i < hashcount; i++){
+//			feature[i] = "";
+//			for(int j=0; j<dimention; j++){
+//				if(j == 0){
+//					feature[i] = base[i][j]+"";
+//				}
+//				else {
+//					feature[i] += "," + base[i][j]; 
+//				}
+//			}
+//			userfeature.put(i+1, feature[i]);
+//		}
+		
 		
 		for(int i = 0; i < hashcount; i++) {
 			for(int l=0;l<hashbucketcount;l++)//每一个特征的hashcount个key
@@ -180,7 +187,7 @@ public class PstableLSH {
 		 * 取出与39号用户相似的所有用户的评分，组成新的usermap矩阵
 		 * */
 		for(int i=0; i < userinfo.size(); i++) {
-			usermap.put(Integer.parseInt(userinfo.get(i)), alist(arrayTostring(base[Integer.parseInt(userinfo.get(i))])));
+			usermap.put(Integer.parseInt(userinfo.get(i)), alist(userfeature.get(Integer.parseInt(userinfo.get(i)))));
 		}
 		
 
@@ -188,48 +195,48 @@ public class PstableLSH {
 		/**
 		 * 将usermap中同一列全部为0的列删除掉，得到最终需要填充的矩阵users
 		 * */
-		int tempdimention = dimention;
-		int cntt = 0;
-		for(int i=0; i < dimention; i++) {
-			Object ot;
-			int flag = 0;
-			int cnt = 0;
-			for(Object o:usermap.keySet()){
-//				System.out.println(o);
-				if(!usermap.get(o).get(0).split(",")[i].equals(String.valueOf(0))){
-					cnt ++;
-					flag = 1;
-					ot = o;
-					/**
-					 * 将每位用户评分不为0的电影记录下来
-					 * */
-					if(usernozero.containsKey(o) && exist(usernozero.get(o),String.valueOf(i))) {
-						usernozero.get(o).add(String.valueOf(i));
-					}else if(!usernozero.containsKey(o)){
-						usernozero.put((Integer) o, alist(String.valueOf(i)));
-					}
-				}
-			}
-			if(flag == 1 && cnt > num){
-				cntt ++;
-				/**
-				 * 更新treemap中电影和现存的位置数
-				 */
-				treemap.put(cntt, i);
-				moive.add(i);
-				for(Object o: usermap.keySet()){
-					if(users.containsKey(o)) {
-						users.get(o).add(usermap.get(o).get(0).split(",")[i]);
-					}else if(!users.containsKey(o)){
-						users.put((Integer) o, alist(usermap.get(o).get(0).split(",")[i]));
-					}
-				}
-
-			}
-		}
-		for(Object o:users.keySet()){
-			System.out.println(o);
-		}
+//		int tempdimention = dimention;
+//		int cntt = 0;
+//		for(int i=0; i < dimention; i++) {
+//			Object ot;
+//			int flag = 0;
+//			int cnt = 0;
+//			for(Object o:usermap.keySet()){
+////				System.out.println(o);
+//				if(!usermap.get(o).get(0).split(",")[i].equals(String.valueOf(0))){
+//					cnt ++;
+//					flag = 1;
+//					ot = o;
+//					/**
+//					 * 将每位用户评分不为0的电影记录下来
+//					 * */
+//					if(usernozero.containsKey(o) && exist(usernozero.get(o),String.valueOf(i))) {
+//						usernozero.get(o).add(String.valueOf(i));
+//					}else if(!usernozero.containsKey(o)){
+//						usernozero.put((Integer) o, alist(String.valueOf(i)));
+//					}
+//				}
+//			}
+//			if(flag == 1 && cnt > num){
+//				cntt ++;
+//				/**
+//				 * 更新treemap中电影和现存的位置数
+//				 */
+//				treemap.put(cntt, i);
+//				moive.add(i);
+//				for(Object o: usermap.keySet()){
+//					if(users.containsKey(o)) {
+//						users.get(o).add(usermap.get(o).get(0).split(",")[i]);
+//					}else if(!users.containsKey(o)){
+//						users.put((Integer) o, alist(usermap.get(o).get(0).split(",")[i]));
+//					}
+//				}
+//
+//			}
+//		}
+//		for(Object o:users.keySet()){
+//			System.out.println(o);
+//		}
 //		for(int i=1; i < treemap.size(); i++){
 //			System.out.println(i + ":" + treemap.get(i));
 //		}
@@ -249,15 +256,15 @@ public class PstableLSH {
 //		printNum(users);
 //		printlist(moive);
 //		print1(tempmap);
-		String indexuser = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\indexuser.txt";
-		WriteFile.Write(indexuser, indexusermap);
-		String bucketuser = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\bucketuser.txt";
-		WriteFile.Write(bucketuser, indexbucketmap);
-		String matuser = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\matuser.txt";
-		WriteFile.Write(matuser, users);
-		String Treemap = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\Treemap.txt";
-		WriteFile.Write(Treemap, treemap);
-//		String userListIn = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\userlist.txt";
+//		String indexuser = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\indexuser.txt";
+//		WriteFile.Write(indexuser, indexusermap);
+//		String bucketuser = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\bucketuser.txt";
+//		WriteFile.Write(bucketuser, indexbucketmap);
+		String matuser = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\matuser.txt";
+		WriteFile.Write(matuser, usermap);
+		String Treemap = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\userinfo.txt";
+		WriteFile.Write(Treemap, userinfo);
+//		String userListIn = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\userlist.txt";
 //		WriteFile.Write1(userListIn, users);
 		
 		long endTime = System.currentTimeMillis();
@@ -339,7 +346,7 @@ public class PstableLSH {
 	//打印hash桶中的各个值
 	public static void print(Map<Integer, ArrayList<String>> map) throws IOException {
 		for(Object o : map.keySet()){  
-			String lshtestFile = "D:\\研究学习\\研究生论文\\小论文\\experimentResult\\lsh\\"+ o +".txt";
+			String lshtestFile = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\lsh\\"+ o +".txt";
 			BufferedWriter lshtestFileOut = new BufferedWriter(new FileWriter(lshtestFile));
 			for(int j = 0; j < map.get(o).size(); j++){
 				if(j != map.get(o).size()-1){
