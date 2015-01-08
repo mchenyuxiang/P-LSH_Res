@@ -25,7 +25,9 @@ public class WriteFile {
 		}
 	}
 	
-	public static void Write(String FileName,Map<Integer, ArrayList<String>> map) throws IOException{
+	
+	
+	public static void Write(String FileName,Map<String, ArrayList<String>> map) throws IOException{
 		BufferedWriter lshtestFileOut = new BufferedWriter(new FileWriter(FileName));
 		for(Object o : map.keySet()){ 
 			try {

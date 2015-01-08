@@ -28,74 +28,8 @@ public class ReadFile {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 		return base;
-	}
-	
-	public static TreeMap Read(String FileName,TreeMap treeMap){
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(FileName)));
-			String line = br.readLine();
-			int i = 0;
-			while(line != null){
-				i++;
-				treeMap.put(i, line);
-				line = br.readLine();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return treeMap;
-	}
-	
-	public static TreeMap Read1(String FileName,TreeMap treeMap){
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(FileName)));
-			String line = br.readLine();
-			while(line != null){
-				treeMap.put(line.split(",")[0], line.split(",")[1]);
-				line = br.readLine();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return treeMap;
-	}
-	
-	public static ArrayList<String> Read(String FileName,ArrayList<String> arraylist){
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(FileName)));
-			String line = br.readLine();
-			while(line != null){
-				arraylist.add(line);
-				line = br.readLine();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return arraylist;
-	}
-
-	public static TreeMap Read2(String FileName,TreeMap treeMap){
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(FileName)));
-			String line = br.readLine();
-			int i=1;
-			while(line != null){
-				treeMap.put(i, line);
-				line = br.readLine();
-				i++;
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return treeMap;
 	}
 }

@@ -22,45 +22,44 @@ public class pstable {
 	static int hashcount=10;//哈希表的数量
 	public static void main(String[] args) {
 		double[][] a = new double[hashcount][dimention];//p-Stable分布（L=2；高斯分布）的随机向量
-		double w=1;//LSH的w
-		double b=Math.random()*100/(w+1);//LSH的随机数b
+		double w=4;//LSH的w
+		double b=Math.random()*w;//LSH的随机数b
 		ArrayList<String> alist = new ArrayList<>();
 		Map<Integer, ArrayList<String>> map = new HashMap<Integer, ArrayList<String>>(); //存放向量和名称
 		
 		//待测试的特征
-		String[] feature = {"1,0,0,0,0,0,0,0,0,1,1,0,0,0",
-				"1,0,0,1,1,1,1,1,1,0,1,0,1,0",
-				"1,1,0,1,0,0,0,0,0,0,0,1,1,1"};
+		String[] feature = {"1000,0,0,1000,0,0,1000,0,0,1000,0,0,1000,0",
+				"0,1000,0,0,1000,0,0,1000,0,0,1000,0,0,1000",
+				"1000,0,0,1000,0,0,1000,0,0,1000,0,0,0,1000"};
 		
 		//程序开始
 		for(int j=0;j<hashcount;j++)//产生hashcount个哈希表
 		{
 			for(int k=0;k<dimention;k++)
 			{
-				a[j][k]=NormalRandom(0,1,-5,5);
-				if(k!=dimention-1){
-					System.out.print(a[j][k] + ",");
-				}else{
-					System.out.println(a[j][k]);
-				}
+				a[j][k]=NormalRandom(0, 1, -1.5, 1.5);
 			}
 		}
 		
-//		for(int i = 0; i < 3; i++) {
-//			for(int l=0;l<hashcount;l++)//每一个特征的hashcount个key
-//			{
-//				int hash_num=hashfamily(feature[i],a[l][0],b,w);//哈希
-//				int key=(int) (hash_num/w);//哈希表的key
-//				
-//				//哈希存储
-//				if(map.containsKey(key) && exist(map.get(key),feature[i])) {
-//					map.get(key).add(feature[i]);
-//				}else if(!map.containsKey(key)){
-//					map.put(key, alist(feature[i]));
-//				}
-//			}
-//		}
-//		print(map);
+		for(int i = 0; i < 3; i++) {
+			int sum = 0;
+			int key = 0;
+			for(int l=0;l<hashcount;l++)//每一个特征的hashcount个key
+			{
+				int hash_num=hashfamily(feature[i],a[l][0],b,w);//哈希
+				int hashKey =(int) (hash_num);//哈希表的key
+				sum += hashKey;
+			}
+			System.out.println(sum);
+			key = sum / 11;
+			//哈希存储
+			if(map.containsKey(key) && exist(map.get(key),feature[i])) {
+				map.get(key).add(feature[i]);
+			}else if(!map.containsKey(key)){
+				map.put(key, alist(feature[i]));
+			}
+		}
+		print(map);
 	}
 	
 	//判断在一个key中时候有相同的value值
@@ -87,15 +86,6 @@ public class pstable {
 		}  
 	}
 	
-	//平均分布
-//	public static double AverageRandom(double min,double max) {
-//	    int minInteger = (int)(min*10000);
-//	    int maxInteger = (int)(max*10000);
-//	    int randInteger = (int) (Math.random()*100 * Math.random() * 100);
-//	    int diffInteger = maxInteger - minInteger;
-//	    int resultInteger = randInteger % diffInteger + minInteger;
-//	    return resultInteger/10000.0;
-//	}
 	
 	public static double AverageRandom(double min,double max) {
 	    int randInteger = (int) (Math.random()*10000);

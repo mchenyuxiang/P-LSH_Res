@@ -10,13 +10,13 @@ import tool.WriteFile;
  * 处理相似用户文件，让文件方便导入到matlab里面
  */
 public class handleFile {
-	public static void handle(int n) throws IOException {
+	public static void handle(int n,String baseFile,String matuser) throws IOException {
 		TreeMap<Integer, String> userIndex = new TreeMap<Integer, String>();
 		/**
-		 * 用户评分
+		 * 用户矩阵
 		 */
-		String baseFile = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\matuser.txt";
-		String matuser = "F:\\研究学习\\研究生论文\\小论文\\experimentResult\\MatricUser.txt";
+//		String baseFile = "F:/研究学习/研究生论文/小论文/experimentResult/1M/matuser1M.txt";
+//		String matuser = "F:/研究学习/研究生论文/小论文/experimentResult/1M/MatricUser100k.txt";
 		
 		/**
 		 * 电影聚类
